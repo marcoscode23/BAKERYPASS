@@ -1,3 +1,4 @@
+#include <Arduino.h>
 // --- 3. Definición de Pines y Hardware ---
 const int trigPin = D2;   // Pin Trigger del sensor ultrasónico (GPIO 5)
 const int echoPin = D1;   // Pin Echo del sensor ultrasónico (GPIO 4)
