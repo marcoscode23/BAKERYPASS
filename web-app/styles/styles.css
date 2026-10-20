@@ -1,0 +1,250 @@
+:root {
+    --bg: #0b0f17;
+    --panel: #111827;
+    --panel2: #0f172a;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --brand: #a78bfa;
+    /* violeta */
+    --primary: #7c3aed;
+    --danger: #ef4444;
+    --secondary: #334155;
+    --border: rgba(255, 255, 255, 0.08);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --good: #22c55e;
+    --warn: #f59e0b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    color: var(--text);
+    background: radial-gradient(1200px 600px at 20% 0%, rgba(124, 58, 237, 0.25), transparent 55%),
+        radial-gradient(900px 500px at 80% 20%, rgba(239, 68, 68, 0.15), transparent 60%),
+        var(--bg);
+}
+
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 22px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    box-shadow: var(--shadow);
+}
+
+.brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.logo {
+    font-size: 34px;
+    filter: drop-shadow(0 8px 18px rgba(124, 58, 237, 0.35));
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0.2px;
+}
+
+.brand p {
+    margin: 6px 0 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.status {
+    text-align: right;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.small-muted {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 980px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status {
+        text-align: left;
+    }
+}
+
+.card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    box-shadow: var(--shadow);
+    padding: 16px;
+}
+
+.card-title {
+    margin: 0 0 14px 0;
+    font-size: 18px;
+}
+
+.sub-title {
+    margin: 0 0 10px 0;
+    color: var(--brand);
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.metric {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.18);
+}
+
+.metric-label {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.metric-value {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.chart-wrap {
+    margin-top: 14px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.table th {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--muted);
+    text-align: left;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table td {
+    color: #f3f4f6;
+}
+
+.control-group {
+    margin-top: 6px;
+}
+
+.help {
+    margin: 6px 0 12px 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 12px;
+    cursor: pointer;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.03);
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    transition: transform 0.05s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    border-color: rgba(124, 58, 237, 0.45);
+    background: rgba(124, 58, 237, 0.16);
+}
+
+.btn-danger {
+    border-color: rgba(239, 68, 68, 0.45);
+    background: rgba(239, 68, 68, 0.14);
+}
+
+.btn-secondary {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+}

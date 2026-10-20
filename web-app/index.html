@@ -1,14 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bakery Pass IoT - Control de Aforo</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles/styles.css" />
 </head>
 
 <body>
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">
+                <span class="logo">🍞</span>
+                <div>
+                    <h1>Bakery Pass IoT</h1>
+                    <p>Monitoreo y Control Remoto · ThingSpeak + NodeMCU</p>
+                </div>
+            </div>
 
+            <div class="status">
+                <div class="status-pill" id="liveStatus">● LIVE OFF</div>
+                <div class="small-muted" id="lastUpdate">Última actualización: —</div>
+            </div>
+        </header>
+
+        <main class="grid">
+            <!-- Panel de sensores -->
+            <section class="card">
+                <h2 class="card-title">📡 Dashboard de Lecturas</h2>
+
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">Entradas</div>
+                        <div class="metric-value" id="metricIn">—</div>
+                    </div>
+
+                    <div class="metric">
+                        <div class="metric-label">Salidas</div>
+                        <div class="metric-value" id="metricOut">—</div>
+                    </div>
+
+                    <div class="metric">
+                        <div class="metric-label">Personas Actual</div>
+                        <div class="metric-value" id="metricCurrent">—</div>
+                    </div>
+
+                    <div class="metric">
+                        <div class="metric-label">Límite Máximo</div>
+                        <div class="metric-value" id="metricLimit">—</div>
+                    </div>
+                </div>
+
+                <div class="chart-wrap">
+                    <h3 class="sub-title">🕒 Últimas muestras</h3>
+                    <div class="chart-placeholder">
+                        <!-- Para mantenerlo simple sin librerías, mostramos lista + descarga.
+                 Si querés gráfico real con canvas, te lo sumo. -->
+                        <table class="table" aria-label="Historial reciente">
+                            <thead>
+                                <tr>
+                                    <th>Fecha/Hora</th>
+                                    <th>In</th>
+                                    <th>Out</th>
+                                    <th>Actual</th>
+                                    <th>Alarma</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentRows"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel de controles -->
+            <section class="card">
+                <h2 class="card-title">🎛️ Control Manual</h2>
+
+                <div class="control-group">
+                    <h3 class="sub-title">Lecturas en vivo</h3>
+                    <p class="help">
+                        Activa/desactiva el polling para traer datos nuevos de la nube.
+                    </p>
+
+                    <div class="btn-row">
+                        <button class="btn btn-primary" id="btnStartLive" type="button">
+                            ▶️ Encender lecturas
+                        </button>
+                        <button class="btn btn-danger" id="btnStopLive" type="button">
+                            ⏹️ Apagar lecturas
+                        </button>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="control-group">
+                    <h3 class="sub-title">Accionador (buzzer/LED)</h3>
+                    <p class="help">
+                        Botones para forzar estado del actuador (si tu backend/NodeMCU lo implementa).
+                    </p>
+
+                    <div class="btn-row">
+                        <button class="btn btn-primary" id="btnActOn" type="button">
+                            🔔 Encender alarma
+                        </button>
+                        <button class="btn btn-danger" id="btnActOff" type="button">
+                            📴 Apagar alarma
+                        </button>
+                    </div>
+
+                    <div class="small-muted" id="actResult" aria-live="polite" style="margin-top:12px;">
+                        Estado del actuador: —
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="control-group">
+                    <h3 class="sub-title">📦 Exportar / Descargar</h3>
+                    <p class="help">
+                        Descarga un CSV con las últimas N muestras cargadas en el navegador.
+                    </p>
+
+                    <div class="btn-row">
+                        <button class="btn btn-secondary" id="btnDownloadCsv" type="button">
+                            ⬇️ Descargar CSV
+                        </button>
+                        <button class="btn btn-secondary" id="btnExportToColab" type="button">
+                            🔗 Exportar a Colab
+                        </button>
+                    </div>
+
+                    <div class="small-muted" style="margin-top:12px;">
+                        Tip: Podés importar el CSV en Colab con <code>pandas.read_csv</code>.
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
 </body>
 
 </html>

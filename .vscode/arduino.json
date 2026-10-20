@@ -1,0 +1,8 @@
+{
+    "board": "esp8266:esp8266:nodemcuv2",
+    "port": "COM3",
+    "sketch": "firmware/BakeryPass/BakeryPass.ino",
+    "output": "../build",
+    "useArduinoCli": true,
+    "path": ""
+}
