@@ -34,7 +34,7 @@ const API_CONFIG = {
     // body: { alarmOn: true }
     control: {
         // TODO: Reemplazá por tu endpoint real:
-        endpointUrl: "http://127.0.0.1:5500/web-app/",
+        endpointUrl: "http://127.0.0.1:5500/web-app/index.html",
         // Si tu backend requiere token, ponelo aquí:
         // authToken: "..."
     },
