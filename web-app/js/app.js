@@ -11,18 +11,18 @@ const API_CONFIG = {
     // Recomendado: usar la lectura sin API key si tus reglas lo permiten.
     // Si querés usar READ_API_KEY, activamos el header/query según soporte.
     thingSpeak: {
-        channelId: 3488112,           // TODO: poné tu CHANNEL_ID
-        readApiKey: "5N8CMR7E1LYXC68B",         // TODO: si tu canal requiere key para leer
+        channelId: 3535830,           // TODO: poné tu CHANNEL_ID
+        readApiKey: "JAR1A6PNFTSASQBZ",         // TODO: si tu canal requiere key para leer
         // max 1 request por X segundos para no saturar
         updatesEveryMs: 5000,
         // Qué campos usa tu firmware en ThingSpeak:
         // Ajustar a tus Field1..Field8 reales
         fields: {
-            in: "field1",
-            out: "field2",
-            current: "field3",
-            limit: "field4",
-            alarm: "field5",
+            in: "personasDentro",
+            out: "totalEntradas",
+            current: "totalSalidas",
+            limit: "estadoAlarma",
+            alarm: "estadoMovimiento",
             // Opcional: timestamp ya viene como "created_at"
         }
     },
