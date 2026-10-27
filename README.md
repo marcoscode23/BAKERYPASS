@@ -1,15 +1,7 @@
-web application/stitch/projects/4483777035166399784/screens/d2d9bab50950421f97c85902847a7e2d
 # 🥐 BAKERY-PASS IoT
 
 > **Sistema Inteligente de Control de Aforo y Telemetría Industrial en Tiempo Real**  
 > Diseñado para áreas de trabajo restringidas, cuadras de producción y salones comerciales de panaderías y obradores artesanales.
-
-[![Platform: ESP8266](https://img.shields.io/badge/Platform-NodeMCU%20ESP8266-blue.svg?logo=arduino)](https://espressif.com/)
-[![Cloud: ThingSpeak](https://img.shields.io/badge/Cloud-ThingSpeak%20IoT-37a.svg?logo=mathworks)](https://thingspeak.com/)
-[![Stack: HTML5 + Tailwind + JS](https://img.shields.io/badge/Frontend-TailwindCSS%20%7C%20Vanilla%20JS-38bdf8.svg?logo=tailwindcss)](https://tailwindcss.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
----
 
 ## 📌 Descripción del Proyecto
 
@@ -68,30 +60,12 @@ Más allá de prevenir el sobrecupo en el área comercial, **BAKERY-PASS IoT** a
 
 ## 🔌 Conexiones de Hardware (Pinout ESP8266)
 
-| Dispositivo / Sensor | Pin NodeMCU | Función Hardware | Modo Operativo |
-| :--- | :--- | :--- | :--- |
-| **Sensor IR Obstáculos** | `D6` (GPIO 12) | Detección de corte de haz óptico | Entrada Digital (PULLUP) |
-| **Sensor PIR** | `D7` (GPIO 13) | Validación direccional de movimiento | Entrada Digital |
-| **LED Indicador (Verde/Rojo)**| `D2` (GPIO 4) | Notificación visual de aforo | Salida Digital |
-| **Buzzer Piezoeléctrico** | `D5` (GPIO 14) | Alarma sonora por sobrecupo | Salida PWM / Digital |
-| **Actuador Servo / Relé** (Opcional)| `D1` (GPIO 5) | Apertura/Bloqueo mecánico de molinete | Señal de Control |
-
----
-
-## 💻 Pila Tecnológica (Tech Stack)
-
-- **Firmware & Microcontrolador**:
-  - C++ / Arduino Framework (`ESP8266WiFi.h`, `ThingSpeak.h`).
-  - Lógica no bloqueante con `millis()` para evitar cuelgues del Watchdog Timer (WDT).
-- **Capa Cloud**:
-  - **ThingSpeak IoT API**: Ingesta de métricas mediante canal dedicado (Campos: Aforo Actual, Total Entradas, Total Salidas, Estado de Alarma).
-  - Integración preparada para exportación a **Google Colab** (`analisis_aforo.ipynb`) para clustering y análisis estadístico.
-- **Frontend / Dashboard Operativo**:
-  - **HTML5 semántico** + **Tailwind CSS (vía CDN)**.
-  - **JavaScript ES6+** nativo (arquitectura Single Page Application reactiva y ligera).
-  - **Chart.js** para renderizado fluido de curvas de ocupación temporal.
-
----
+| Dispositivo / Sensor           | Pin NodeMCU    | Función Hardware                     | Modo Operativo       |
+| :----------------------------- | :------------- | :----------------------------------- | :------------------- |
+| **Sensor IR Obstáculos**       | `D6` (GPIO 12) | Detección de corte de haz óptico     | Salida Digital       |
+| **Sensor PIR**                 | `D7` (GPIO 13) | Validación direccional de movimiento | Entrada Digital      |
+| **LED Indicador (Verde/Rojo)** | `D2` (GPIO 4)  | Notificación visual de aforo         | Indicador Digital    |
+| **Buzzer Piezoeléctrico**      | `D5` (GPIO 14) | Alarma sonora por sobrecupo          | Salida PWM / Digital |
 
 ## 📂 Estructura del Repositorio
 
@@ -107,30 +81,7 @@ BAKERY-PASS-IoT/
 └── analytics/
     └── notebooks/
         └── analisis_aforo.ipynb  # Notebook Colab para ciencia de datos y patrones
-```
-
----
-
-## 🚀 Puesta en Marcha Rápida
-
-### 1. Configuración del Microcontrolador
-1. Abre `firmware/bakery_pass.ino` en el **Arduino IDE**.
-2. Asegúrate de tener instalado el paquete de placas para **ESP8266** y las librerías `ThingSpeak` y `ESP8266WiFi`.
-3. Configura tus credenciales en el código:
-   ```cpp
-   const char* ssid = "TU_RED_WIFI";
-   const char* password = "TU_PASSWORD";
-   unsigned long myChannelNumber = TU_CHANNEL_ID;
-   const char * myWriteAPIKey = "TU_WRITE_API_KEY";
-   ```
-4. Conecta el NodeMCU vía micro-USB y sube el firmware seleccionando la placa *NodeMCU 1.0 (ESP-12E Module)*.
-
-### 2. Ejecución del Dashboard Web
-1. Dirígete a la carpeta `web-app/`.
-2. Abre directamente `index.html` con cualquier navegador web moderno (no requiere Node.js ni servidor web complejo).
-3. Utiliza los controles de simulación y monitoreo directo para verificar el comportamiento de aforo y tiempos de ciclo.
-
----
+``
 
 ## 👥 Equipo de Desarrollo
 
@@ -142,3 +93,4 @@ BAKERY-PASS-IoT/
 ## 📄 Licencia
 
 Este proyecto está bajo la Licencia [MIT](LICENSE). Siéntete libre de utilizarlo, modificarlo y adaptarlo a tus necesidades industriales o académicas.
+```
