@@ -17,7 +17,7 @@
                 <span class="logo">🍞</span>
                 <div>
                     <h1>Bakery Pass IoT</h1>
-                    <p>Monitoreo y Control Remoto · ThingSpeak + NodeMCU</p>
+                    <p>Monitoreo de aforo · ESP8266 + ThingSpeak</p>
                 </div>
             </div>
 
@@ -52,21 +52,33 @@
                         <div class="metric-label">Límite Máximo</div>
                         <div class="metric-value" id="metricLimit">—</div>
                     </div>
+
+                    <!-- NUEVO -->
+                    <div class="metric">
+                        <div class="metric-label">Alarmas activadas</div>
+                        <div class="metric-value" id="metricAlarms">—</div>
+                    </div>
+
+                    <!-- NUEVO -->
+                    <div class="metric">
+                        <div class="metric-label">Detecciones PIR</div>
+                        <div class="metric-value" id="metricPir">—</div>
+                    </div>
                 </div>
 
                 <div class="chart-wrap">
                     <h3 class="sub-title">🕒 Últimas muestras</h3>
                     <div class="chart-placeholder">
-                        <!-- Para mantenerlo simple sin librerías, mostramos lista + descarga.
-                 Si querés gráfico real con canvas, te lo sumo. -->
                         <table class="table" aria-label="Historial reciente">
                             <thead>
                                 <tr>
                                     <th>Fecha/Hora</th>
-                                    <th>In</th>
-                                    <th>Out</th>
+                                    <th>Entradas</th>
+                                    <th>Salidas</th>
                                     <th>Actual</th>
                                     <th>Alarma</th>
+                                    <th>Total alarmas</th>
+                                    <th>Total PIR</th>
                                 </tr>
                             </thead>
                             <tbody id="recentRows"></tbody>
@@ -77,12 +89,12 @@
 
             <!-- Panel de controles -->
             <section class="card">
-                <h2 class="card-title">🎛️ Control Manual</h2>
+                <h2 class="card-title">🎛️ Panel de control</h2>
 
                 <div class="control-group">
                     <h3 class="sub-title">Lecturas en vivo</h3>
                     <p class="help">
-                        Activa/desactiva el polling para traer datos nuevos de la nube.
+                        Activa/desactiva la consulta a ThingSpeak (se actualiza cada 15 s).
                     </p>
 
                     <div class="btn-row">
@@ -97,23 +109,15 @@
 
                 <div class="divider"></div>
 
+                <!-- Reemplaza a los botones del actuador: la alarma es automática según el aforo -->
                 <div class="control-group">
-                    <h3 class="sub-title">Accionador (buzzer/LED)</h3>
+                    <h3 class="sub-title">🚨 Estado del sistema</h3>
                     <p class="help">
-                        Botones para forzar estado del actuador (si tu backend/NodeMCU lo implementa).
+                        La alarma (LED + buzzer) se activa sola cuando se supera el aforo máximo.
                     </p>
 
-                    <div class="btn-row">
-                        <button class="btn btn-primary" id="btnActOn" type="button">
-                            🔔 Encender alarma
-                        </button>
-                        <button class="btn btn-danger" id="btnActOff" type="button">
-                            📴 Apagar alarma
-                        </button>
-                    </div>
-
-                    <div class="small-muted" id="actResult" aria-live="polite" style="margin-top:12px;">
-                        Estado del actuador: —
+                    <div class="small-muted" id="systemState" aria-live="polite" style="margin-top:12px;">
+                        Estado del sistema: —
                     </div>
                 </div>
 
@@ -122,7 +126,7 @@
                 <div class="control-group">
                     <h3 class="sub-title">📦 Exportar / Descargar</h3>
                     <p class="help">
-                        Descarga un CSV con las últimas N muestras cargadas en el navegador.
+                        Descarga un CSV con el histórico del canal (hasta 8000 lecturas).
                     </p>
 
                     <div class="btn-row">
@@ -142,7 +146,7 @@
         </main>
     </div>
 
-    <!-- JS -->
+    <!-- JS: debe ir al final, después de todo el HTML -->
     <script src="js/app.js"></script>
 </body>
 

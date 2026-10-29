@@ -23,6 +23,11 @@ const CONFIG = {
         totalSalidas: "field3",
         estadoAlarma: "field4",
         estadoMovimiento: "field5",
+<<<<<<< HEAD
+=======
+        totalMovimientos: "fiel6",
+        totalAlarmas: "field7",
+>>>>>>> 080b71e (Actulizar js)
     },
     aforoMaximo: 15, // mismo límite que el Arduino
 };
@@ -225,7 +230,11 @@ async function exportToColabHelp() {
     // ThingSpeak ya ofrece CSV directo: Colab puede leerlo sin subir ningún archivo
     const csvUrl = tsUrl("feeds.csv", { results: CONFIG.colabRows });
     const code =
+<<<<<<< HEAD
 `import pandas as pd
+=======
+        `import pandas as pd
+>>>>>>> 080b71e (Actulizar js)
 
 url = "${csvUrl}"
 df = pd.read_csv(url).iloc[:, :7]
@@ -240,7 +249,11 @@ df.head()`;
     try { await navigator.clipboard.writeText(code); } catch (_) { /* sin portapapeles */ }
 
     alert(
+<<<<<<< HEAD
 `✅ Export a Google Colab
+=======
+        `✅ Export a Google Colab
+>>>>>>> 080b71e (Actulizar js)
 
 Opción A (automática): copié este código al portapapeles. Pegalo en una celda de Colab y ejecutalo:
 
