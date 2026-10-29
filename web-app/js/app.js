@@ -23,8 +23,8 @@ const CONFIG = {
         totalSalidas: "field3",
         estadoAlarma: "field4",
         estadoMovimiento: "field5",
-        totalMovimientos: "fiel6",
-        totalAlarmas: "field7",
+        totalAlarmas: "fiel6",
+        totalMovimientos: "field7",
     },
     aforoMaximo: 15, // mismo límite que el Arduino
 };
