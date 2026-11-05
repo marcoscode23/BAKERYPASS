@@ -42,8 +42,8 @@ Más allá de prevenir el sobrecupo en el área comercial, **BAKERY-PASS IoT** a
  ┌────────────────────────────────────────────────────────┐
  │                 CONTROLADOR LOCAL (ESP8266)            │
  │                                                        │
- │   • Algoritmo Antirrebote (millis() debounce)          │
- │   • Control Lógico de Aforo (Current vs Max PAX)       │
+ │   • Algoritmo Antirrebote millis()          │
+ │   • Control Lógico de Aforo       │
  │   • Conexión Wi-Fi 802.11 b/g/n (Modo Estación)        │
  └─────────────┬───────────────────────────┬──────────────┘
                │                           │
@@ -53,7 +53,7 @@ Más allá de prevenir el sobrecupo en el área comercial, **BAKERY-PASS IoT** a
   ▼                          ▼             ▼                          ▼
 [LED Indicador]        [Buzzer Activo] [ThingSpeak Cloud]     [Web Dashboard]
 (Verde: Acceso libre   (Alarma sonora  (Almacenamiento serie   (Panel SPA local:
- Rojo: Bloqueo/Aforo)   al superar max) temporal + análisis)    Tailwind + JS)
+ Rojo: Bloqueo/Aforo)   al superar max) temporal + análisis)    CSS + JS)
 ```
 
 ---
@@ -73,24 +73,22 @@ Más allá de prevenir el sobrecupo en el área comercial, **BAKERY-PASS IoT** a
 BAKERY-PASS-IoT/
 ├── README.md                 # Documentación técnica principal del proyecto
 ├── firmware/
-│   └── bakery_pass.ino       # Código fuente C++ para NodeMCU ESP8266
+│   └── bakery_pass_con_thingspeak.ino       # Código fuente C++ para NodeMCU ESP8266
 ├── web-app/
-│   ├── index.html            # Dashboard SPA operativo con Tailwind CSS
-│   ├── app.js                # Lógica de simulación, conexión y gráficas en vivo
-│   └── assets/               # Recursos visuales y esquemáticos
-└── analytics/
-    └── notebooks/
-        └── analisis_aforo.ipynb  # Notebook Colab para ciencia de datos y patrones
+│   ├── index.html            # Dashboard operativo con CSS
+├── js              # Lógica de simulación, conexión y gráficas en vivo
+│   └── app.js
+├── styles        
+│   └── styles.css              # Recursos visuales y esquemáticos
+└── notebooks/
+    └── datosLimpios.ipynb  # Notebook Colab para ciencia de datos y patrones
 ``
 
 ## 👥 Equipo de Desarrollo
 
-* **Desarrollador / Integrador IoT**: [Tu Nombre / Usuario de GitHub]
-* **Institución / Asignatura**: Proyecto Integrador de IoT y Sistemas Embebidos
+* **Desarrollador: [Stylarek Gerardo, Miño Marcos]
+* **Infraestructura: [Espindola Milena, Bordon Yazmin]
+* **Instituto Superior San Jose I-27  / PRACTICA PROFESIONALIZANTE: Proyecto Integrador de IoT y Sistemas Embebidos
 
 ---
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia [MIT](LICENSE). Siéntete libre de utilizarlo, modificarlo y adaptarlo a tus necesidades industriales o académicas.
-```

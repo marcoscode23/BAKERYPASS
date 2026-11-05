@@ -1,22 +1,14 @@
 // Bakery Pass - VERSIÓN CON THINGSPEAK (misma lógica de la versión de prueba)
-// Abrí el Monitor Serie a 115200 baudios.
-// Escribí "r" y Enter para reiniciar los contadores sin reiniciar la placa.
-//
-// Campos del canal en ThingSpeak (activá Field 6 y Field 7 en Channel Settings):
-//   Field 1: personasDentro      Field 5: estadoMovimiento (0/1)
-//   Field 2: totalEntradas       Field 6: totalAlarmas
-//   Field 3: totalSalidas        Field 7: totalMovimientos (detecciones del PIR)
-//   Field 4: estadoAlarma (0/1)
 
 #include <ESP8266WiFi.h>
 #include <ThingSpeak.h>
 
 // --- Configuración de Red y ThingSpeak ---
-const char* ssid = "Biblio_Sanjo";
-const char* password = "SanJosei27";
+const char *ssid = "Biblio_Sanjo";
+const char *password = "SanJosei27";
 
 unsigned long numeroCanal = 3535830;
-const char* WriteAPIKey = "JAR1A6PNFTSASQBZ";
+const char *WriteAPIKey = "JAR1A6PNFTSASQBZ";
 
 WiFiClient clienteWiFi;
 
@@ -41,8 +33,8 @@ int totalEntradas = 0;
 int totalSalidas = 0;
 int estadoAlarma = 0;
 int estadoMovimiento = 0;
-int totalMovimientos = 0; // <<< NUEVO: veces que el PIR detectó movimiento
 int totalAlarmas = 0;     // <<< NUEVO: veces que se activó la alarma
+int totalMovimientos = 0; // <<< NUEVO: veces que el PIR detectó movimiento
 
 // --- Auxiliares PIR (entrada) ---
 int ultimoEstadoPIR = LOW;
@@ -68,7 +60,8 @@ int enviadoSalidas = -1;
 int enviadoAlarmas = -1;
 int enviadoMovimientos = -1;
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
   delay(10);
 
@@ -92,13 +85,16 @@ void setup() {
   Serial.println(" s): las entradas se ignoran hasta entonces...");
 }
 
-void loop() {
+void loop()
+{
   unsigned long ahora = millis();
 
   // --- Comando por Serie: "r" reinicia contadores ---
-  if (Serial.available()) {
+  if (Serial.available())
+  {
     char c = Serial.read();
-    if (c == 'r' || c == 'R') {
+    if (c == 'r' || c == 'R')
+    {
       personasDentro = 0;
       totalEntradas = 0;
       totalSalidas = 0;
@@ -112,24 +108,32 @@ void loop() {
   int pir = digitalRead(pirPin);
   estadoMovimiento = pir;
 
-  if (pir == LOW && ultimoEstadoPIR == HIGH) {
+  if (pir == LOW && ultimoEstadoPIR == HIGH)
+  {
     pirBajoDesde = ahora;
     Serial.println("[PIR] bajo (sin movimiento)");
   }
 
-  if (pir == HIGH && ultimoEstadoPIR == LOW) {
-    if (ahora >= PIR_CALENTAMIENTO) {                    // <<< NUEVO (4 líneas)
-      totalMovimientos++;                                // <<< NUEVO
-      Serial.print("[PIR] movimiento detectado #");      // <<< NUEVO
-      Serial.println(totalMovimientos);                  // <<< NUEVO
-    }                                                    // <<< NUEVO
-    if (ahora < PIR_CALENTAMIENTO) {
+  if (pir == HIGH && ultimoEstadoPIR == LOW)
+  {
+    if (ahora >= PIR_CALENTAMIENTO)
+    {                                               // <<< NUEVO (4 líneas)
+      totalMovimientos++;                           // <<< NUEVO
+      Serial.print("[PIR] movimiento detectado #"); // <<< NUEVO
+      Serial.println(totalMovimientos);             // <<< NUEVO
+    } // <<< NUEVO
+    if (ahora < PIR_CALENTAMIENTO)
+    {
       Serial.println("[PIR] subida IGNORADA: calentamiento");
-    } else if ((ahora - pirBajoDesde) < PIR_LIBRE_MIN) {
+    }
+    else if ((ahora - pirBajoDesde) < PIR_LIBRE_MIN)
+    {
       Serial.print("[PIR] subida IGNORADA: solo estuvo libre ");
       Serial.print(ahora - pirBajoDesde);
       Serial.println(" ms");
-    } else {
+    }
+    else
+    {
       totalEntradas++;
       personasDentro++;
       Serial.print("[FLUJO] ENTRADA (PIR) | Personas dentro: ");
@@ -150,44 +154,60 @@ void loop() {
   ultimaDistancia = (duration > 0) ? distance : -1;
   bool hayObjeto = (duration > 0 && distance > 2 && distance < 30);
 
-  if (hayObjeto) {
-    if (confirmacionesSalida < 2) confirmacionesSalida++;
-    if (confirmacionesSalida >= 2 && !objetoSalida) {
+  if (hayObjeto)
+  {
+    if (confirmacionesSalida < 2)
+      confirmacionesSalida++;
+    if (confirmacionesSalida >= 2 && !objetoSalida)
+    {
       objetoSalida = true;
-      if (personasDentro > 0) {
+      if (personasDentro > 0)
+      {
         totalSalidas++;
         personasDentro--;
         Serial.print("[FLUJO] SALIDA (Ultrasonico) | Personas dentro: ");
         Serial.println(personasDentro);
-      } else {
+      }
+      else
+      {
         Serial.println("[ULTRA] objeto detectado, pero no hay nadie dentro (no resta)");
       }
     }
-  } else {
+  }
+  else
+  {
     confirmacionesSalida = 0;
     objetoSalida = false;
   }
 
   // --- 3. ALARMA (LED + buzzer, 6 avisos, sin bloquear el loop) ---
-  if (personasDentro >= AFORO_MAXIMO) {
-    if (estadoAlarma == 0) {                              // <<< NUEVO (5 líneas)
-      totalAlarmas++; // nueva activación                 // <<< NUEVO
-      Serial.print("[ALERTA] Alarma numero ");            // <<< NUEVO
-      Serial.println(totalAlarmas);                       // <<< NUEVO
-    }                                                     // <<< NUEVO
+  if (personasDentro >= AFORO_MAXIMO)
+  {
+    if (estadoAlarma == 0)
+    {                                          // <<< NUEVO (5 líneas)
+      totalAlarmas++;                          // nueva activación                 // <<< NUEVO
+      Serial.print("[ALERTA] Alarma numero "); // <<< NUEVO
+      Serial.println(totalAlarmas);            // <<< NUEVO
+    } // <<< NUEVO
     estadoAlarma = 1;
 
-    if (!alarmaDisparada) {
+    if (!alarmaDisparada)
+    {
       unsigned long duracion = alarmaEncendida ? 300 : 200;
-      if (ahora - ultimoCambioAlarma >= duracion) {
+      if (ahora - ultimoCambioAlarma >= duracion)
+      {
         ultimoCambioAlarma = ahora;
-        if (alarmaEncendida) {
+        if (alarmaEncendida)
+        {
           digitalWrite(ledPin, LOW);
           digitalWrite(buzzerPin, LOW);
           alarmaEncendida = false;
           contadorAvisos++;
-          if (contadorAvisos >= 6) alarmaDisparada = true;
-        } else {
+          if (contadorAvisos >= 6)
+            alarmaDisparada = true;
+        }
+        else
+        {
           digitalWrite(ledPin, HIGH);
           digitalWrite(buzzerPin, HIGH);
           alarmaEncendida = true;
@@ -195,7 +215,9 @@ void loop() {
         }
       }
     }
-  } else {
+  }
+  else
+  {
     estadoAlarma = 0;
     digitalWrite(ledPin, LOW);
     digitalWrite(buzzerPin, LOW);
@@ -205,7 +227,8 @@ void loop() {
   }
 
   // --- 4. INFORME DE ESTADO por Monitor Serie ---
-  if (ahora - ultimoInforme >= INFORME_CADA) {
+  if (ahora - ultimoInforme >= INFORME_CADA)
+  {
     ultimoInforme = ahora;
     Serial.print("[ESTADO] dentro=");
     Serial.print(personasDentro);
@@ -215,15 +238,17 @@ void loop() {
     Serial.print(totalSalidas);
     Serial.print(" | alarma=");
     Serial.print(estadoAlarma);
-    Serial.print(" | totalAlarmas=");                     // <<< NUEVO
-    Serial.print(totalAlarmas);                           // <<< NUEVO
+    Serial.print(" | totalAlarmas="); // <<< NUEVO
+    Serial.print(totalAlarmas);       // <<< NUEVO
     Serial.print(" | pir=");
     Serial.print(estadoMovimiento);
-    Serial.print(" | totalPIR=");                         // <<< NUEVO
-    Serial.print(totalMovimientos);                       // <<< NUEVO
+    Serial.print(" | totalPIR=");   // <<< NUEVO
+    Serial.print(totalMovimientos); // <<< NUEVO
     Serial.print(" | dist=");
-    if (ultimaDistancia < 0) Serial.println("sin eco");
-    else {
+    if (ultimaDistancia < 0)
+      Serial.println("sin eco");
+    else
+    {
       Serial.print(ultimaDistancia);
       Serial.println(" cm");
     }
@@ -239,7 +264,8 @@ void loop() {
 
   if (WiFi.status() == WL_CONNECTED &&
       desdeUltimoEnvio >= ENVIO_MINIMO &&
-      (cambio || desdeUltimoEnvio >= ENVIO_LATIDO)) {
+      (cambio || desdeUltimoEnvio >= ENVIO_LATIDO))
+  {
 
     ultimoTiempoEnvio = millis();
 
@@ -254,13 +280,16 @@ void loop() {
     Serial.println("Enviando datos a ThingSpeak...");
     int codigoRespuesta = ThingSpeak.writeFields(numeroCanal, WriteAPIKey);
 
-    if (codigoRespuesta == 200) {
+    if (codigoRespuesta == 200)
+    {
       enviadoEntradas = totalEntradas;
       enviadoSalidas = totalSalidas;
       enviadoAlarmas = totalAlarmas;
       enviadoMovimientos = totalMovimientos;
       Serial.println("Canal actualizado (HTTP 200)");
-    } else {
+    }
+    else
+    {
       Serial.print("Error al actualizar canal. Codigo HTTP: ");
       Serial.println(codigoRespuesta);
     }
@@ -271,7 +300,8 @@ void loop() {
 }
 
 // --- Conexión WiFi ---
-void conectarWiFi() {
+void conectarWiFi()
+{
   Serial.println();
   Serial.print("Conectando a la red de 2.4GHz: ");
   Serial.println(ssid);
@@ -281,11 +311,13 @@ void conectarWiFi() {
   WiFi.begin(ssid, password);
 
   int intentos = 0;
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(500);
     Serial.print(".");
     intentos++;
-    if (intentos > 30) {
+    if (intentos > 30)
+    {
       Serial.println("\nReintentando conexion WiFi...");
       WiFi.begin(ssid, password);
       intentos = 0;
